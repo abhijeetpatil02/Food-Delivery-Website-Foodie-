@@ -1,7 +1,7 @@
-const cacheName = "voice-sos-cache-v2";
+const cacheName = "Foodie";
 
 const filesToCache = [
-  "./",
+  "./login.html",
   "./index.html",
   "./voice.js",
   "./icon-192.png",
