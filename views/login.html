@@ -6,9 +6,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Foodie Login Page</title>
-    <!-- PWA -->
+   <!-- PWA -->
   <link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#d71920">
+  <meta name="theme-color" content="#d71920">
+  
   <style>
     * {
       margin: 0;
@@ -134,13 +135,11 @@
       <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
     </form>
   </div>
-  <!-- js -->
-   <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("sw.js")
-        .then(() => console.log("Service Worker Registered"))
-        .catch(err => console.log("SW Error", err));
-    }
-  </script>
 </body>
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js")
+    .then(() => console.log("Service Worker Registered"));
+}
+</script>
 </html>

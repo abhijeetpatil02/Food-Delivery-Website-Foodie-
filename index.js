@@ -1,7 +1,14 @@
 const express = require('express');
 const path = require('path');
+const http = require("http");
 const mysql2 = require('mysql2');
 const app = express();
+const server = http.createServer(app);
+
+// your PWA / service worker code
+app.use(express.static("public"));
+
+app.use(express.json());
 
 const database = mysql2.createConnection({
     host: "127.0.0.1",
@@ -58,6 +65,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'login.html'));
 });
+
+// app.get('/', (req, res) => {
+//     res.redirect('/login');
+// });
+
 
 // ✅ Login handler
 app.post('/login', (req, res) => {
