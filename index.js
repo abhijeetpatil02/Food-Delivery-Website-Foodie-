@@ -1,222 +1,146 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const http = require("http");
 const mysql2 = require('mysql2');
+const bcrypt = require('bcrypt');
 const app = express();
 const server = http.createServer(app);
 
-// your PWA / service worker code
-app.use(express.static("public"));
+// Serve static files from 'public' folder
+app.use(express.static(path.join(__dirname, 'public')));
 
+// Middleware to parse form data and JSON
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// Database connection
 const database = mysql2.createConnection({
-    host: "127.0.0.1",
-    user: "root",
-    password: "Abhijeet@123",
-    database: "foodie"
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME
 });
 
 database.connect((error) => {
     if (error) {
-        return console.log(error);
+        console.error("MySQL connection error:", error);
+        return;
     }
     console.log("MySQL database is connected...");
 });
 
-
-// signup to DataBase
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Middleware to parse form data
-app.use(express.urlencoded({ extended: true }));
-
 // Serve homepage (sign up page)
 app.get('/signup', (req, res) => {
-    const htmlfile = path.join(__dirname, 'views', 'signup.html');
-    res.sendFile(htmlfile);
+    res.sendFile(path.join(__dirname, 'public', 'auth.html'));
 });
 
 // Sign-up handler
-app.post('/handleform', (req, res) => {
+app.post('/handleform', async (req, res) => {
     try {
         const { username, email, password } = req.body;
+        // Hash password before saving
+        const hashedPassword = await bcrypt.hash(password, 10);
+        
         const SQL_COMMAND = "INSERT INTO customer(username, email, password) VALUES (?, ?, ?)";
-        database.query(SQL_COMMAND, [username, email, password], (err, result) => {
+        database.query(SQL_COMMAND, [username, email, hashedPassword], (err, result) => {
             if (err) {
                 console.error(err);
                 return res.send("Registration unsuccessful");
             }
-            console.log(result);
-            // res.send("Registration successful");
             res.redirect("/homepage.html");
         });
     } catch (err) {
         console.error(err);
         res.send("Registration unsuccessful");
-        
     }
 });
 
-
-// login to DataBase
-app.use(express.static(path.join(__dirname, 'public')));
-
+// Login page
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'login.html'));
+    res.sendFile(path.join(__dirname, 'public', 'auth.html'));
 });
 
-// app.get('/', (req, res) => {
-//     res.redirect('/login');
-// });
-
-
-// ✅ Login handler
+// Login handler
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
-    const SQL_COMMAND = "SELECT * FROM customer WHERE username = ? AND password = ?";
-    database.query(SQL_COMMAND, [username, password], (err, results) => {
+    const SQL_COMMAND = "SELECT * FROM customer WHERE username = ?";
+    database.query(SQL_COMMAND, [username], async (err, results) => {
         if (err) {
             console.error(err);
             return res.send("Login error");
         }
+        
         if (results.length > 0) {
-            res.redirect("/homepage.html");
+            const user = results[0];
+            // Compare hashed password
+            const isMatch = await bcrypt.compare(password, user.password);
+            
+            // Fallback for plain-text passwords during transition phase
+            if (isMatch || password === user.password) {
+                res.redirect("/homepage.html");
+            } else {
+                res.send("Invalid username or password");
+            }
         } else {
             res.send("Invalid username or password");
-            
         }
     });
 });
 
-
-// homepage to Resturants
-app.use(express.static(path.join(__dirname, 'public')));
-
+// Homepage (after login)
 app.get('/home', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'homepage.html'));
+    res.sendFile(path.join(__dirname, 'public', 'homepage.html'));
 });
 
-app.post('/home', (req, res) => {
-    if (results.length > 0) {
-        res.redirect("/fastrestaurant.html");
-    }
-});
-
-
-// homepage to Orderpage
-app.use(express.static(path.join(__dirname, 'public')));
-
+// Order page
 app.get('/order', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'homepage.html'));
+    res.sendFile(path.join(__dirname, 'public', 'order.html'));
 });
 
-app.post('/order', (req, res) => {
-    if (results.length > 0) {
-        res.redirect("/fastrestaurant.html");
-    }
-});
-
-
-//Resturants to Orderpage
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.get('/order', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'fastrestaurant.html'));
-});
-
-app.post('/order', (req, res) => {
-    if (results.length > 0) {
-        res.redirect("/order.html");
-    }
-});
-
-// navbar
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.get('/order', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'fastrestaurant.html'));
-});
-
-app.post('/order', (req, res) => {
-    if (results.length > 0) {
-        res.redirect("/order.html");
-    }
-});
-
-// login to signup
-app.use(express.static(path.join(__dirname, 'views')));
-
-app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'login.html'));
-});
-
-
-app.post('/login', (req, res) => {
-    if (results.length > 0) {
-        res.redirect("/signup.html");
-    }
-});
-
-// orderpage to DataBase
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(express.urlencoded({ extended: true }));
-
-app.get('/order', (req, res) => {
-    const htmlfile = path.join(__dirname, 'views', 'order.html');
-    res.sendFile(htmlfile);
-});
-
+// Place order handler
 app.post('/orders', (req, res) => {
     try {
-        const { phone, address} = req.body;
-        const SQL_COMMAND = "INSERT INTO placed(phone, address ) VALUES (?, ?)";
-        database.query(SQL_COMMAND, [phone, address ], (err, result) => {
+        const { phone, address, price } = req.body;
+        const SQL_COMMAND = "INSERT INTO placed(phone, address) VALUES (?, ?)";
+        database.query(SQL_COMMAND, [phone, address], (err, result) => {
             if (err) {
                 console.error(err);
-                return res.send("Registration unsuccessful");
+                return res.send("Order placement unsuccessful");
             }
-            console.log(result);
-            res.redirect("/payment.html");
-            // res.alert("order placed");
+            res.redirect(`/payment.html?amount=${price}`);
         });
     } catch (err) {
         console.error(err);
-        res.send("Registration unsuccessful");
+        res.send("Order placement unsuccessful");
     }
 });
 
-// this is payment database
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(express.urlencoded({ extended: true }));
-
+// Payment page
 app.get('/payment', (req, res) => {
-    const htmlfile = path.join(__dirname, 'views', 'payment.html');
-    res.sendFile(htmlfile);
+    res.sendFile(path.join(__dirname, 'public', 'payment.html'));
 });
 
+// Payment submit handler
 app.post('/submit', (req, res) => {
     try {
-        const { full_name,email,payment_method,card_number,expiry_date,cvv,upi_id,bank,cod} = req.body;
-        const SQL_COMMAND = "INSERT INTO payment(full_name,email,payment_method,card_number,expiry_date,cvv,upi_id,bank,cod) VALUES (?,?,?,?,?,?,?,?,?)";
-        database.query(SQL_COMMAND, [full_name,email,payment_method,card_number,expiry_date,cvv,upi_id,bank,cod], (err, result) => {
+        const { full_name, email, payment_method, card_number, expiry_date, cvv, upi_id, bank, cod } = req.body;
+        const SQL_COMMAND = "INSERT INTO payment(full_name, email, payment_method, card_number, expiry_date, cvv, upi_id, bank, cod) VALUES (?,?,?,?,?,?,?,?,?)";
+        
+        database.query(SQL_COMMAND, [full_name, email, payment_method, card_number, expiry_date, cvv, upi_id, bank, cod], (err, result) => {
             if (err) {
                 console.error(err);
-                return res.send("Registration unsuccessful");
+                return res.send("Payment unsuccessful");
             }
-            console.log(result);
             res.redirect("/last.html");
-            // res.alert("order placed");
         });
     } catch (err) {
         console.error(err);
-        res.send("Registration unsuccessful");
+        res.send("Payment unsuccessful");
     }
 });
 
-app.listen(2000, () => {
-    console.log('Server is running on port 2000');
+const PORT = process.env.PORT || 2000;
+server.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
-

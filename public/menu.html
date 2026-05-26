@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#d71920">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px; }
+        h1 { text-align: center; margin: 20px 0; color: #333; }
+        .container { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; padding: 1rem; }
+        .box { background-color: #c9c3c3; padding: 1.5rem; border-radius: 8px; text-align: center; flex: 1 1 calc(25% - 1.5rem); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .box:hover { transform: translateY(-5px); }
+        .box a { text-decoration: none; color: inherit; display: block; }
+        .box img { width: 100%; height: 190px; object-fit: cover; border-radius: 10px; margin-bottom: 10px; }
+        .box h2 { margin: 10px 0; color: #333; }
+        .box h3 { color: #555; margin: 5px 0; }
+        .box button { margin-top: 10px; height: 35px; width: 100px; background-color: #4CAF50; color: white; font-size: 16px; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease; }
+        .box button:hover { background-color: #2ecc71; transform: translateY(-2px); }
+        .box button a { text-decoration: none; color: white; }
+        @media (max-width: 1024px) { .box { flex: 1 1 calc(33.33% - 1.5rem); } }
+        @media (max-width: 768px) { .box { flex: 1 1 calc(50% - 1.5rem); } }
+        @media (max-width: 480px) { .box { flex: 1 1 100%; } }
+    </style>
+</head>
+<body>
+    <h1 id="page-title">Menu</h1>
+    <div class="container" id="menu-container">
+        <!-- Menu items will be loaded here dynamically -->
+    </div>
+
+    <!-- Include our data file -->
+    <script src="data.js"></script>
+    <script>
+        // Get the category from the URL e.g., ?category=veg
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('category') || 'fastfood'; 
+
+        // Load data for the category
+        const currentData = restaurantData[category];
+
+        if (currentData) {
+            document.getElementById('page-title').innerText = currentData.title.replace("Restaurants", "Menu");
+            
+            const container = document.getElementById('menu-container');
+            
+            currentData.menu.forEach(item => {
+                const box = document.createElement('div');
+                box.className = 'box';
+                
+                const orderLink = `order.html?item=${encodeURIComponent(item.name)}&price=${item.price}&image=${encodeURIComponent(item.image)}`;
+                
+                box.innerHTML = `
+                    <a href="${orderLink}">
+                        <img src="${item.image}" alt="${item.name}">
+                        <h2>${item.name}</h2>
+                        <h3>₹${item.price}</h3>
+                        <button>Order</button>
+                    </a>
+                `;
+                container.appendChild(box);
+            });
+        } else {
+            document.getElementById('page-title').innerText = "Menu Not Found";
+        }
+    </script>
+</body>
+</html>

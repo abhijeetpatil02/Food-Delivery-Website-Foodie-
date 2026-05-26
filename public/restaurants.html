@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurants</title>
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#d71920">
+    <style>
+        body { margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4; }
+        h1 { text-align: center; margin: 20px 0; color: #333; }
+        .container { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; padding: 1rem; }
+        .box { background-color: white; padding: 1.5rem; border-radius: 8px; text-align: center; flex: 1 1 calc(25% - 1.5rem); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .box:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); }
+        .box a { text-decoration: none; color: #333; font-weight: bold; display: block; }
+        img { height: 200px; width: 100%; object-fit: cover; border-radius: 10px; margin-bottom: 10px; }
+        @media (max-width: 1024px) { .box { flex: 1 1 calc(33.33% - 1.5rem); } }
+        @media (max-width: 768px) { .box { flex: 1 1 calc(50% - 1.5rem); } }
+        @media (max-width: 480px) { .box { flex: 1 1 100%; } }
+    </style>
+</head>
+<body>
+    <h1 id="page-title">Restaurants</h1>
+    <div class="container" id="restaurant-container">
+        <!-- Restaurants will be loaded here dynamically -->
+    </div>
+
+    <!-- Include our data file -->
+    <script src="data.js"></script>
+    <script>
+        // Get the category from the URL e.g., ?category=veg
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('category') || 'fastfood'; // default to fastfood if not specified
+
+        // Load data for the category
+        const currentData = restaurantData[category];
+
+        if (currentData) {
+            document.getElementById('page-title').innerText = currentData.title;
+            
+            const container = document.getElementById('restaurant-container');
+            
+            currentData.restaurants.forEach(restaurant => {
+                const box = document.createElement('div');
+                box.className = 'box';
+                
+                // Link goes to menu.html with the same category parameter
+                box.innerHTML = `
+                    <a href="menu.html?category=${category}">
+                        <img src="${restaurant.image}" alt="${restaurant.name}">
+                        <h3>${restaurant.name}</h3>
+                    </a>
+                `;
+                container.appendChild(box);
+            });
+        } else {
+            document.getElementById('page-title').innerText = "Category Not Found";
+        }
+    </script>
+</body>
+</html>

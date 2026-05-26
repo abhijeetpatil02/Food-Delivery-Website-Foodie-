@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payment Page</title>
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#d71920">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f6f9fc, #e2f0cb);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .payment-form {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 35px 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      max-width: 450px;
+      animation: fadeInUp 0.8s ease;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .payment-form h2 {
+      text-align: center;
+      margin-bottom: 5px;
+      color: #333;
+    }
+    .payment-form h3 {
+      text-align: center;
+      color: #e23744;
+      margin-bottom: 25px;
+      font-size: 1.5rem;
+    }
+    .payment-form label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: 600;
+      color: #555;
+    }
+    .payment-form input,
+    .payment-form select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      background-color: #fdfdfd;
+      transition: border-color 0.3s;
+    }
+    .payment-form input:focus,
+    .payment-form select:focus {
+      outline: none;
+      border-color: #e23744;
+    }
+    .payment-form button {
+      width: 100%;
+      padding: 15px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    #pay-btn {
+      background-color: #27ae60;
+      color: white;
+    }
+    #pay-btn:hover {
+      background-color: #2ecc71;
+      transform: translateY(-2px);
+    }
+    .payment-method {
+      display: none;
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #eaeaea;
+    }
+    .cod-message {
+      font-style: italic;
+      color: #27ae60;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <form class="payment-form" action="/submit" method="POST">
+    <h2>Complete Payment</h2>
+    <h3 id="total-amount">Total: ₹0</h3>
+
+    <!-- Hidden input to store total if backend needs it -->
+    <input type="hidden" name="total_amount" id="hidden-amount">
+
+    <label for="name">Full Name</label>
+    <input type="text" name="full_name" required placeholder="Enter your full name"/>
+
+    <label for="email">Email</label>
+    <input type="email" name="email" required placeholder="Enter your email"/>
+
+    <label for="method">Payment Method</label>
+    <select id="payment-method" name="payment_method" required>
+      <option value="">Select a method</option>
+      <option value="card">Credit/Debit Card</option>
+      <option value="upi">UPI</option>
+      <option value="netbanking">Net Banking</option>
+      <option value="cod">Cash on Delivery (COD)</option>
+    </select>
+
+    <!-- Card Section -->
+    <div id="card" class="payment-method">
+      <label>Card Number</label>
+      <input type="text" name="card_number" placeholder="1234 5678 9012 3456" />
+      <label>Expiry Date</label>
+      <input type="text" name="expiry_date" placeholder="MM/YY" />
+      <label>CVV</label>
+      <input type="text" name="cvv" placeholder="123" />
+    </div>
+
+    <!-- UPI Section -->
+    <div id="upi" class="payment-method">
+      <label>UPI ID</label>
+      <input type="text" name="upi_id" placeholder="yourname@upi" />
+    </div>
+
+    <!-- Net Banking Section -->
+    <div id="netbanking" class="payment-method">
+      <label>Select Bank</label>
+      <select name="bank">
+        <option value="">--Choose Bank--</option>
+        <option value="sbi">SBI</option>
+        <option value="hdfc">HDFC</option>
+        <option value="icici">ICICI</option>
+        <option value="axis">Axis Bank</option>
+      </select>
+    </div>
+
+    <!-- Cash on Delivery -->
+    <div id="cod" class="payment-method">
+      <p class="cod-message">✅ You will pay in cash upon delivery.</p>
+      <!-- Ensure the cod input is set for backend -->
+      <input type="hidden" name="cod" value="yes">
+    </div>
+
+    <!-- Buttons -->
+    <button type="submit" id="pay-btn">Proceed to Pay</button>
+  </form>
+
+  <script>
+    // Extract the total amount from the URL
+    window.onload = function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const amount = urlParams.get('amount');
+      if (amount) {
+        document.getElementById('total-amount').textContent = `Total: ₹${amount}`;
+        document.getElementById('hidden-amount').value = amount;
+      }
+    };
+
+    const methodSelect = document.getElementById('payment-method');
+    const methods = document.querySelectorAll('.payment-method');
+    const payBtn = document.getElementById('pay-btn');
+
+    methodSelect.addEventListener('change', function () {
+      // Hide all payment sections
+      methods.forEach(m => m.style.display = 'none');
+
+      const selected = this.value;
+
+      // Show the selected payment method section
+      if (selected) {
+        const selectedDiv = document.getElementById(selected);
+        if (selectedDiv) {
+          selectedDiv.style.display = 'block';
+        }
+      }
+
+      // Update button text based on selection
+      if (selected === 'cod') {
+        payBtn.textContent = 'Confirm Order (COD)';
+      } else {
+        payBtn.textContent = 'Proceed to Pay';
+      }
+    });
+  </script>
+
+</body>
+</html>
+
