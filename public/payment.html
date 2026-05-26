@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Payment Page</title>
@@ -11,6 +12,7 @@
       margin: 0;
       padding: 0;
     }
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #f6f9fc, #e2f0cb);
@@ -20,6 +22,7 @@
       min-height: 100vh;
       padding: 20px;
     }
+
     .payment-form {
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(10px);
@@ -30,27 +33,39 @@
       max-width: 450px;
       animation: fadeInUp 0.8s ease;
     }
+
     @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
+
     .payment-form h2 {
       text-align: center;
       margin-bottom: 5px;
       color: #333;
     }
+
     .payment-form h3 {
       text-align: center;
       color: #e23744;
       margin-bottom: 25px;
       font-size: 1.5rem;
     }
+
     .payment-form label {
       display: block;
       margin: 10px 0 5px;
       font-weight: 600;
       color: #555;
     }
+
     .payment-form input,
     .payment-form select {
       width: 100%;
@@ -62,11 +77,13 @@
       background-color: #fdfdfd;
       transition: border-color 0.3s;
     }
+
     .payment-form input:focus,
     .payment-form select:focus {
       outline: none;
       border-color: #e23744;
     }
+
     .payment-form button {
       width: 100%;
       padding: 15px;
@@ -78,14 +95,17 @@
       margin-top: 10px;
       transition: background-color 0.3s, transform 0.2s;
     }
+
     #pay-btn {
       background-color: #27ae60;
       color: white;
     }
+
     #pay-btn:hover {
       background-color: #2ecc71;
       transform: translateY(-2px);
     }
+
     .payment-method {
       display: none;
       background: #f9f9f9;
@@ -94,6 +114,7 @@
       margin-bottom: 15px;
       border: 1px solid #eaeaea;
     }
+
     .cod-message {
       font-style: italic;
       color: #27ae60;
@@ -102,6 +123,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <form class="payment-form" action="/submit" method="POST">
@@ -112,10 +134,10 @@
     <input type="hidden" name="total_amount" id="hidden-amount">
 
     <label for="name">Full Name</label>
-    <input type="text" name="full_name" required placeholder="Enter your full name"/>
+    <input type="text" name="full_name" required placeholder="Enter your full name" />
 
     <label for="email">Email</label>
-    <input type="email" name="email" required placeholder="Enter your email"/>
+    <input type="email" name="email" required placeholder="Enter your email" />
 
     <label for="method">Payment Method</label>
     <select id="payment-method" name="payment_method" required>
@@ -167,7 +189,7 @@
 
   <script>
     // Extract the total amount from the URL
-    window.onload = function() {
+    window.onload = function () {
       const urlParams = new URLSearchParams(window.location.search);
       const amount = urlParams.get('amount');
       if (amount) {
@@ -204,5 +226,5 @@
   </script>
 
 </body>
-</html>
 
+</html>
