@@ -1,128 +1,116 @@
-# 🍔 Foodie — Food Delivery Website
+# 🍕 Foodie — Food Delivery Website
 
-A responsive food delivery website built with **Node.js**, **Express**, and **MySQL**, enabling users to explore food menus, view item details, and simulate an online ordering experience with a clean, user-friendly interface.
+<div align="center">
 
+![Foodie](https://img.shields.io/badge/Foodie-Food%20Delivery-d71920?style=for-the-badge&logo=ubereats&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-Express-339933?style=for-the-badge&logo=node.js&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
+[![Live Demo](https://img.shields.io/badge/🚀%20Live%20Demo-foodie--2has.onrender.com-d71920?style=for-the-badge)](https://foodie-2has.onrender.com)
 
-## 📌 Table of Contents
+**A modern food delivery web application — browse menus, place orders, and get your favourite food delivered fast! 🚀**
 
-- [About the Project](#about-the-project)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Database Setup](#database-setup)
-  - [Running the App](#running-the-app)
-- [Screenshots](#screenshots)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
+</div>
 
 
 ## 📖 About the Project
 
-**Foodie** is a full-stack food delivery web application that allows users to browse food menus, view detailed item information, and place simulated orders. The project focuses on delivering a smooth and visually appealing ordering experience.
+**Foodie** is a full-stack food delivery web application that lets users sign up, log in, browse food items, and place orders — all through a clean and intuitive interface. Built with a Node.js + Express backend, it provides a smooth and responsive experience for food lovers who want their meals delivered quickly and easily.
 
+---
 
 ## ✨ Features
 
-- 🏠 Home page with featured food items and categories
-- 🍕 Browse and explore food menus
-- 📋 View detailed information for each food item
-- 🛒 Add items to cart and simulate order placement
-- 📱 Fully responsive design for mobile and desktop
-- 🗄️ MySQL database integration for dynamic data
+- 🔐 **User Authentication** — Secure Sign Up & Login system
+- 🍔 **Food Menu** — Browse a variety of food items with details and prices
+- 🛒 **Add to Cart** — Add favourite items and manage your order
+- 📦 **Order Management** — Place and track food orders seamlessly
+- 📱 **Responsive Design** — Fully optimized for desktop and mobile devices
+- 🌐 **Cloud Deployed** — Hosted live on Render for 24/7 availability
+
 
 
 ## 🛠️ Tech Stack
 
-| Layer      | Technology              |
-|------------|-------------------------|
-| Frontend   | HTML, CSS, JavaScript   |
-| Backend    | Node.js, Express.js     |
-| Database   | MySQL (via mysql2)      |
-| Templating | EJS / HTML Views        |
-| Dev Tools  | Nodemon                 |
+| Layer | Technology |
+|-------|-----------|
+| **Frontend** | HTML, CSS, JavaScript |
+| **Backend** | Node.js, Express.js |
+| **Database** | MongoDB |
+| **Authentication** | JWT / Session-based Auth |
+| **Hosting** | Render |
+
+> *(Update this table to match your exact stack if anything differs)*
+
+
 
 
 ## 📁 Project Structure
 
 ```
 Food-Delivery-Website-Foodie-/
-├── public/          # Static assets (images, CSS, JS)
-├── static/          # Additional static files
-├── views/           # HTML/EJS template files
-├── index.js         # Main entry point (Express server)
-├── package.json     # Project dependencies
+├── public/
+│   ├── index.html
+│   ├── login.html
+│   ├── signup.html
+│   ├── css/
+│   └── js/
+├── routes/
+│   ├── auth.js
+│   └── orders.js
+├── models/
+│   ├── user.js
+│   └── order.js
+├── server.js
+├── package.json
 └── README.md
-
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-Make sure you have the following installed:
-
-- [Node.js](https://nodejs.org/) (v16 or higher)
-- [MySQL](https://www.mysql.com/) (v8 or higher)
-- npm (comes with Node.js)
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/abhijeetpatil02/Food-Delivery-Website-Foodie-.git
-   cd Food-Delivery-Website-Foodie-
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-### Database Setup
-
-1. Open your MySQL client and create a new database:
-   ```sql
-   CREATE DATABASE foodie_db;
-   ```
-
-2. Import the database schema (if a `.sql` file is provided):
-   ```bash
-   mysql -u root -p foodie_db < database.sql
-   ```
-
-3. Update the database connection settings in `index.js`:
-   ```js
-   const db = mysql.createConnection({
-     host: 'localhost',
-     user: 'your_mysql_username',
-     password: 'your_mysql_password',
-     database: 'foodie_db'
-   });
-   ```
-
-### Running the App
-
-**Development mode (with auto-restart):**
-```bash
-npx nodemon index.js
 ```
 
-**Production mode:**
-```bash
-node index.js
-```
+> *(Adjust the structure above to match your actual project layout)*
 
-Then open your browser and go to:
-```
-http://localhost:3000
+---
 
+## 🌐 Live Demo
 
+The application is deployed and accessible at:
+
+**🔗 [https://foodie-2has.onrender.com](https://foodie-2has.onrender.com)**
+
+Try it out — create an account, browse the menu, and place your order!
+
+> **Note:** Since this is hosted on Render's free tier, the server may take ~30 seconds to spin up on the first visit after a period of inactivity.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Here's how:
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+---
 
 ## 📬 Contact
 
 **Abhijeet Patil**
-- GitHub: [@abhijeetpatil02](https://github.com/abhijeetpatil02)
 
+[![Portfolio](https://img.shields.io/badge/Portfolio-abhijeetp--portfolio.netlify.app-ff5722?style=flat&logo=netlify)](https://abhijeetp-portfolio.netlify.app/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-abhijeetp02-0077B5?style=flat&logo=linkedin)](https://www.linkedin.com/in/abhijeetp02/)
+[![GitHub](https://img.shields.io/badge/GitHub-abhijeetpatil02-181717?style=flat&logo=github)](https://github.com/abhijeetpatil02)
+
+Project Link: [https://github.com/abhijeetpatil02/Food-Delivery-Website-Foodie-](https://github.com/abhijeetpatil02/Food-Delivery-Website-Foodie-)
+
+---
+
+<div align="center">
+  Made with ❤️ by <a href="https://github.com/abhijeetpatil02">Abhijeet Patil</a>
+</div>
