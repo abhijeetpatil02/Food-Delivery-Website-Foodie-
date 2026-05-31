@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const http = require("http");
-const mysql2 = require('mysql2');
 const bcrypt = require('bcrypt');
 const app = express();
 const server = http.createServer(app);
@@ -15,19 +14,19 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Database connection
-const database = mysql2.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME
-});
+const database = require('./db');
 
 database.connect((error) => {
     if (error) {
-        console.error("MySQL connection error:", error);
+        console.error("Database connection error:", error);
         return;
     }
-    console.log("MySQL database is connected...");
+    console.log("Database connection interface is ready...");
+});
+
+// Redirect root to login
+app.get('/', (req, res) => {
+    res.redirect('/login');
 });
 
 // Serve homepage (sign up page)
