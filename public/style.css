@@ -1,73 +1,267 @@
-/* Reset some basic styles */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+/* ==========================================
+   DESIGN TOKENS & SYSTEM VARIABLES
+   ========================================== */
+:root {
+    /* Fonts */
+    --font-title: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-body: 'Outfit', system-ui, -apple-system, sans-serif;
+
+    /* Colors */
+    --primary: hsl(8, 95%, 55%);
+    --primary-light: hsl(8, 95%, 65%);
+    --primary-dark: hsl(8, 95%, 45%);
+    --primary-glow: rgba(240, 62, 41, 0.15);
+    --secondary: hsl(38, 95%, 55%);
+    --secondary-glow: rgba(246, 174, 45, 0.2);
+    --success: hsl(142, 70%, 45%);
+    --success-light: hsl(142, 70%, 55%);
+    --danger: hsl(350, 80%, 55%);
+    
+    /* Backgrounds */
+    --bg-base: #fdfbf7;
+    --bg-surface: rgba(255, 255, 255, 0.85);
+    --bg-surface-solid: #ffffff;
+    --bg-dark: hsl(220, 15%, 15%);
+    --bg-glass-dark: rgba(25, 25, 25, 0.65);
+    
+    /* Text */
+    --text-main: hsl(220, 15%, 15%);
+    --text-muted: hsl(220, 10%, 45%);
+    --text-white: #ffffff;
+    
+    /* Borders & Shadows */
+    --border-color: rgba(0, 0, 0, 0.08);
+    --border-white: rgba(255, 255, 255, 0.2);
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.03);
+    --shadow-md: 0 12px 36px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.1);
+    --shadow-inset: inset 0 2px 4px rgba(0,0,0,0.06);
+    
+    /* Radius & Spacing */
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-pill: 9999px;
+    
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* ==========================================
+   RESET & SYSTEM DEFAULTS
+   ========================================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
+    font-family: var(--font-body);
+    background-color: var(--bg-base);
+    color: var(--text-main);
+    line-height: 1.5;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-title);
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1.2;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: var(--transition-smooth);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-base);
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: var(--radius-pill);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
+
+/* ==========================================
+   COMMON GLASS COMPONENTS
+   ========================================== */
+.card-glass {
+    background: var(--bg-surface);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: var(--shadow-md);
+    border-radius: var(--radius-md);
+    transition: var(--transition-bounce);
+}
+
+.card-glass:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.card-dark-glass {
+    background: var(--bg-glass-dark);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-white);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-md);
+}
+
+/* ==========================================
+   BUTTONS SYSTEM
+   ========================================== */
+.btn {
+    display: inline-flex;
     align-items: center;
-    height: 100vh;
-}
-
-.login-container {
-  
-    background-color: rgb(194, 206, 197);
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 350px;
-    text-align: center;
-
-}
-
-h1 {
-    margin-bottom: 20px;
-    color: #333;
-}
-
-.input-group {
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-.input-group label {
-    display: block;
-    margin-bottom: 5px;
-    color:black;
-    
-}
-
-.input-group input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    font-size: 16px;
-}
-
-.input-group input:focus {
-    border-color: #37870f;
-    outline: none;
-}
-
-#button-group button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4a8f27;
-    color: white;
+    justify-content: center;
+    padding: 12px 24px;
+    font-family: var(--font-title);
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: var(--radius-md);
     border: none;
-    border-radius: 10px;
-    font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: var(--transition-bounce);
+    outline: none;
+    gap: 8px;
 }
 
-/* #button-group button:hover {
-    background-color:#1dd600;
-} */
+.btn:active {
+    transform: scale(0.95);
+}
 
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: var(--text-white);
+    box-shadow: 0 4px 15px rgba(226, 55, 68, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(226, 55, 68, 0.45);
+    background: linear-gradient(135deg, var(--primary-light), var(--primary));
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--success), var(--success-light));
+    color: var(--text-white);
+    box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(39, 174, 96, 0.45);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+}
+
+.btn-outline:hover {
+    background: var(--primary);
+    color: var(--text-white);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px var(--primary-glow);
+}
+
+/* ==========================================
+   FORM INPUTS
+   ========================================== */
+.input-group-modern {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.input-group-modern label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: var(--transition-smooth);
+}
+
+.input-modern {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--border-color);
+    background: var(--bg-surface-solid);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--text-main);
+    transition: var(--transition-smooth);
+}
+
+.input-modern:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 4px var(--primary-glow);
+}
+
+/* Valid/Invalid borders only after interaction or submit attempt */
+.input-modern:focus:invalid {
+    border-color: var(--danger);
+    box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.15);
+}
+
+/* ==========================================
+   ANIMATIONS
+   ========================================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(226, 55, 68, 0.4); }
+    50% { box-shadow: 0 0 0 10px rgba(226, 55, 68, 0); }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.4s ease forwards;
+}

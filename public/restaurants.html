@@ -3,24 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurants</title>
+    <title>Foodie - Restaurants</title>
+    
     <link rel="manifest" href="./manifest.json">
-    <meta name="theme-color" content="#d71920">
+    <meta name="theme-color" content="#e23744">
+    
+    <!-- Shared Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    
     <style>
-        body { margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4; }
-        h1 { text-align: center; margin: 20px 0; color: #333; }
-        .container { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; padding: 1rem; }
-        .box { background-color: white; padding: 1.5rem; border-radius: 8px; text-align: center; flex: 1 1 calc(25% - 1.5rem); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .box:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); }
-        .box a { text-decoration: none; color: #333; font-weight: bold; display: block; }
-        img { height: 200px; width: 100%; object-fit: cover; border-radius: 10px; margin-bottom: 10px; }
-        @media (max-width: 1024px) { .box { flex: 1 1 calc(33.33% - 1.5rem); } }
-        @media (max-width: 768px) { .box { flex: 1 1 calc(50% - 1.5rem); } }
-        @media (max-width: 480px) { .box { flex: 1 1 100%; } }
+        body {
+            background-color: var(--bg-base);
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        /* Top navigation header */
+        .top-nav {
+            background: rgba(253, 251, 247, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--font-title);
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            background: var(--primary-glow);
+            transition: var(--transition-smooth);
+        }
+
+        .back-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateX(-3px);
+        }
+
+        .brand-name {
+            font-family: var(--font-title);
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .brand-name span {
+            color: var(--primary);
+        }
+
+        /* Page header section */
+        .page-header {
+            text-align: center;
+            margin: 50px 0 30px 0;
+            padding: 0 20px;
+        }
+
+        h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .page-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Grid container */
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 35px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        .box {
+            background-color: var(--bg-surface-solid);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-bounce);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .box:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(226, 55, 68, 0.15);
+        }
+
+        .box a {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .img-container {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-smooth);
+        }
+
+        .box:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Meta badges */
+        .box-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: var(--radius-sm);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            letter-spacing: 0.5px;
+        }
+
+        .restaurant-details {
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .box h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .restaurant-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .rating {
+            background-color: var(--secondary-glow);
+            color: hsl(38, 95%, 40%);
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
     </style>
 </head>
 <body>
-    <h1 id="page-title">Restaurants</h1>
+    <div class="top-nav">
+        <a href="homepage.html" class="back-btn">← Back to Home</a>
+        <div class="brand-name">Foodie<span>.</span></div>
+    </div>
+
+    <div class="page-header">
+        <h1 id="page-title">Restaurants</h1>
+        <p>Choose your favorite outlet and explore their delicious menu</p>
+    </div>
+
     <div class="container" id="restaurant-container">
         <!-- Restaurants will be loaded here dynamically -->
     </div>
@@ -30,7 +214,7 @@
     <script>
         // Get the category from the URL e.g., ?category=veg
         const urlParams = new URLSearchParams(window.location.search);
-        const category = urlParams.get('category') || 'fastfood'; // default to fastfood if not specified
+        const category = urlParams.get('category') || 'fastfood'; 
 
         // Load data for the category
         const currentData = restaurantData[category];
@@ -40,15 +224,38 @@
             
             const container = document.getElementById('restaurant-container');
             
-            currentData.restaurants.forEach(restaurant => {
+            // Setup secondary options based on category for richer layout
+            const badgesMap = {
+                fastfood: ["Burgers & Sides", "Quick Delivery", "Popular"],
+                veg: ["Pure Vegetarian", "Healthy Options", "Organic Certified"],
+                nonveg: ["Tandoori Specialties", "Meat Lovers", "Traditional Recipe"]
+            };
+
+            const badges = badgesMap[category] || ["Top Choice", "Highly Rated"];
+
+            currentData.restaurants.forEach((restaurant, index) => {
                 const box = document.createElement('div');
                 box.className = 'box';
+                box.style.animationDelay = `${index * 0.1}s`;
                 
-                // Link goes to menu.html with the same category parameter
+                // Generating random mock metrics for visual completeness
+                const mockRating = (4.3 + (index % 7) * 0.1).toFixed(1);
+                const mockTime = 25 + (index % 5) * 5;
+                const randBadge = badges[index % badges.length];
+
                 box.innerHTML = `
                     <a href="menu.html?category=${category}">
-                        <img src="${restaurant.image}" alt="${restaurant.name}">
-                        <h3>${restaurant.name}</h3>
+                        <div class="img-container">
+                            <img src="${restaurant.image}" alt="${restaurant.name}">
+                            <div class="box-badge">${randBadge}</div>
+                        </div>
+                        <div class="restaurant-details">
+                            <h3>${restaurant.name}</h3>
+                            <div class="restaurant-meta">
+                                <span class="rating">⭐ ${mockRating}</span>
+                                <span>⏱️ ${mockTime} mins</span>
+                            </div>
+                        </div>
                     </a>
                 `;
                 container.appendChild(box);

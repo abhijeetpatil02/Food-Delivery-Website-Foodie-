@@ -1,194 +1,467 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <title>Payment Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foodie - Complete Payment</title>
+  
   <link rel="manifest" href="./manifest.json">
-  <meta name="theme-color" content="#d71920">
+  <meta name="theme-color" content="#e23744">
+  
+  <!-- Shared Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #f6f9fc, #e2f0cb);
+      background-color: var(--bg-base);
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      padding: 20px;
+      padding: 40px 20px;
     }
 
-    .payment-form {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      padding: 35px 30px;
-      border-radius: 16px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    .payment-container {
       width: 100%;
-      max-width: 450px;
-      animation: fadeInUp 0.8s ease;
+      max-width: 550px;
+      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
+    /* Stepper Progress Bar */
+    .stepper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 35px;
+      background: var(--bg-surface-solid);
+      border: 1px solid var(--border-color);
+      padding: 15px 25px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+    }
 
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      position: relative;
+    }
+
+    .step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 18px;
+      left: calc(50% + 20px);
+      width: calc(100% - 40px);
+      height: 4px;
+      background: var(--success);
+      z-index: 1;
+    }
+
+    .step:nth-child(3):not(:last-child)::after {
+      background: #e5e7eb;
+    }
+
+    .step-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #e5e7eb;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+      z-index: 2;
+      border: 3px solid var(--bg-surface-solid);
+    }
+
+    .step.completed .step-icon {
+      background: var(--success);
+      color: white;
+    }
+
+    .step.active .step-icon {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 0 0 4px var(--primary-glow);
+    }
+
+    .step-label {
+      margin-top: 6px;
+      font-family: var(--font-title);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .step.completed .step-label {
+      color: var(--success);
+    }
+
+    .step.active .step-label {
+      color: var(--primary-dark);
+    }
+
+    /* Main payment form box */
+    .payment-form {
+      background: var(--bg-surface-solid);
+      border: 1px solid var(--border-color);
+      padding: 40px 35px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
     }
 
     .payment-form h2 {
       text-align: center;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text-main);
       margin-bottom: 5px;
-      color: #333;
     }
 
     .payment-form h3 {
       text-align: center;
-      color: #e23744;
-      margin-bottom: 25px;
-      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 30px;
+      font-size: 1.6rem;
+      font-weight: 800;
     }
 
     .payment-form label {
       display: block;
-      margin: 10px 0 5px;
-      font-weight: 600;
-      color: #555;
+      margin: 15px 0 6px 0;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--text-main);
     }
 
-    .payment-form input,
-    .payment-form select {
+    /* Modern Text Inputs */
+    .payment-form input[type="text"],
+    .payment-form input[type="email"] {
       width: 100%;
-      padding: 12px;
-      margin-bottom: 15px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
+      padding: 13px 18px;
+      border-radius: var(--radius-md);
+      border: 2px solid var(--border-color);
+      font-family: var(--font-body);
       font-size: 1rem;
-      background-color: #fdfdfd;
-      transition: border-color 0.3s;
-    }
-
-    .payment-form input:focus,
-    .payment-form select:focus {
+      background-color: var(--bg-base);
+      transition: var(--transition-smooth);
       outline: none;
-      border-color: #e23744;
     }
 
-    .payment-form button {
-      width: 100%;
-      padding: 15px;
-      font-size: 1.2rem;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
+    .payment-form input[type="text"]:focus,
+    .payment-form input[type="email"]:focus {
+      border-color: var(--primary);
+      background-color: white;
+      box-shadow: 0 0 0 4px var(--primary-glow);
+    }
+
+    /* Visual Grid selector for Payment Method */
+    .payment-selector-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
       margin-top: 10px;
-      transition: background-color 0.3s, transform 0.2s;
+      margin-bottom: 25px;
     }
 
-    #pay-btn {
-      background-color: #27ae60;
-      color: white;
+    .method-tab {
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: var(--transition-smooth);
+      background: var(--bg-base);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
     }
 
-    #pay-btn:hover {
-      background-color: #2ecc71;
-      transform: translateY(-2px);
+    .method-tab:hover {
+      border-color: var(--primary-light);
+      background: white;
     }
 
+    .method-tab.active {
+      border-color: var(--primary);
+      background: var(--primary-glow);
+      color: var(--primary-dark);
+    }
+
+    .method-tab-icon {
+      font-size: 1.8rem;
+    }
+
+    /* Hide standard select but keep functional for backend requirements */
+    #payment-method {
+      display: none;
+    }
+
+    /* Payment sections styling */
     .payment-method {
       display: none;
-      background: #f9f9f9;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      border: 1px solid #eaeaea;
+      background: var(--bg-base);
+      padding: 25px;
+      border-radius: var(--radius-md);
+      margin-bottom: 25px;
+      border: 1px dashed var(--border-color);
+      animation: fadeIn 0.4s ease forwards;
+    }
+
+    /* Credit Card Graphic Visualizer */
+    .card-visualizer {
+      width: 100%;
+      height: 180px;
+      background: linear-gradient(135deg, hsl(8, 95%, 55%), hsl(350, 80%, 45%));
+      border-radius: var(--radius-md);
+      color: white;
+      padding: 22px;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-family: 'Courier New', Courier, monospace;
+      letter-spacing: 2px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-visualizer::before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 150px;
+      height: 150px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 50%;
+    }
+
+    .card-chip {
+      width: 40px;
+      height: 30px;
+      background: linear-gradient(135deg, #f6ae2d, #ffc107);
+      border-radius: 6px;
+    }
+
+    .card-number-display {
+      font-size: 1.25rem;
+      margin: 15px 0;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+
+    .card-bottom {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .card-holder-display {
+      max-width: 70%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    /* Card Details Form Row */
+    .card-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
     }
 
     .cod-message {
-      font-style: italic;
-      color: #27ae60;
+      font-size: 1.05rem;
+      color: var(--success);
       text-align: center;
-      font-weight: bold;
+      font-weight: 700;
+    }
+
+    /* Submit Button overrides */
+    #pay-btn {
+      width: 100%;
+      padding: 16px;
+      font-family: var(--font-title);
+      font-size: 1.15rem;
+      font-weight: 700;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      margin-top: 15px;
+      background-color: var(--success);
+      color: white;
+      box-shadow: 0 6px 20px rgba(39, 174, 96, 0.3);
+      transition: var(--transition-bounce);
+    }
+
+    #pay-btn:hover {
+      background-color: var(--success-light);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(39, 174, 96, 0.5);
+    }
+
+    /* Bank selection styling */
+    select.bank-selector {
+      width: 100%;
+      padding: 13px 18px;
+      border-radius: var(--radius-md);
+      border: 2px solid var(--border-color);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      background-color: var(--bg-base);
+      outline: none;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+
+    select.bank-selector:focus {
+      border-color: var(--primary);
+      background-color: white;
     }
   </style>
 </head>
-
 <body>
 
-  <form class="payment-form" action="/submit" method="POST">
-    <h2>Complete Payment</h2>
-    <h3 id="total-amount">Total: ₹0</h3>
-
-    <!-- Hidden input to store total if backend needs it -->
-    <input type="hidden" name="total_amount" id="hidden-amount">
-
-    <label for="name">Full Name</label>
-    <input type="text" name="full_name" required placeholder="Enter your full name" />
-
-    <label for="email">Email</label>
-    <input type="email" name="email" required placeholder="Enter your email" />
-
-    <label for="method">Payment Method</label>
-    <select id="payment-method" name="payment_method" required>
-      <option value="">Select a method</option>
-      <option value="card">Credit/Debit Card</option>
-      <option value="upi">UPI</option>
-      <option value="netbanking">Net Banking</option>
-      <option value="cod">Cash on Delivery (COD)</option>
-    </select>
-
-    <!-- Card Section -->
-    <div id="card" class="payment-method">
-      <label>Card Number</label>
-      <input type="text" name="card_number" placeholder="1234 5678 9012 3456" />
-      <label>Expiry Date</label>
-      <input type="text" name="expiry_date" placeholder="MM/YY" />
-      <label>CVV</label>
-      <input type="text" name="cvv" placeholder="123" />
+  <div class="payment-container">
+    <!-- Stepper progress bar -->
+    <div class="stepper">
+      <div class="step completed">
+        <div class="step-icon">✓</div>
+        <div class="step-label">Select Meal</div>
+      </div>
+      <div class="step completed">
+        <div class="step-icon">✓</div>
+        <div class="step-label">Delivery Info</div>
+      </div>
+      <div class="step active">
+        <div class="step-icon">3</div>
+        <div class="step-label">Payment Method</div>
+      </div>
+      <div class="step">
+        <div class="step-icon">4</div>
+        <div class="step-label">Order Placed</div>
+      </div>
     </div>
 
-    <!-- UPI Section -->
-    <div id="upi" class="payment-method">
-      <label>UPI ID</label>
-      <input type="text" name="upi_id" placeholder="yourname@upi" />
-    </div>
+    <!-- Main Form wrapper -->
+    <form class="payment-form" action="/submit" method="POST">
+      <h2>Complete Payment</h2>
+      <h3 id="total-amount">Total: ₹0</h3>
 
-    <!-- Net Banking Section -->
-    <div id="netbanking" class="payment-method">
-      <label>Select Bank</label>
-      <select name="bank">
-        <option value="">--Choose Bank--</option>
-        <option value="sbi">SBI</option>
-        <option value="hdfc">HDFC</option>
-        <option value="icici">ICICI</option>
-        <option value="axis">Axis Bank</option>
+      <!-- Hidden input to store total if backend needs it -->
+      <input type="hidden" name="total_amount" id="hidden-amount">
+
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="full_name" required placeholder="Enter your full name" oninput="updateCardName(this.value)" />
+
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" required placeholder="name@example.com" />
+
+      <label>Select Payment Method</label>
+      <!-- Visual Selector Grid -->
+      <div class="payment-selector-grid">
+        <div class="method-tab" onclick="selectTab('card')">
+          <div class="method-tab-icon">💳</div>
+          <div>Credit/Debit Card</div>
+        </div>
+        <div class="method-tab" onclick="selectTab('upi')">
+          <div class="method-tab-icon">📱</div>
+          <div>UPI Gateway</div>
+        </div>
+        <div class="method-tab" onclick="selectTab('netbanking')">
+          <div class="method-tab-icon">🏦</div>
+          <div>Net Banking</div>
+        </div>
+        <div class="method-tab" onclick="selectTab('cod')">
+          <div class="method-tab-icon">💵</div>
+          <div>Cash on Delivery</div>
+        </div>
+      </div>
+
+      <!-- Functional selector kept synchronised for standard POST forms -->
+      <select id="payment-method" name="payment_method" required>
+        <option value="">Select a method</option>
+        <option value="card">Credit/Debit Card</option>
+        <option value="upi">UPI</option>
+        <option value="netbanking">Net Banking</option>
+        <option value="cod">Cash on Delivery (COD)</option>
       </select>
-    </div>
 
-    <!-- Cash on Delivery -->
-    <div id="cod" class="payment-method">
-      <p class="cod-message">✅ You will pay in cash upon delivery.</p>
-      <!-- Ensure the cod input is set for backend -->
-      <input type="hidden" name="cod" value="yes">
-    </div>
+      <!-- Card Section -->
+      <div id="card" class="payment-method">
+        <!-- Interactive Card Visualizer -->
+        <div class="card-visualizer">
+          <div class="card-chip"></div>
+          <div id="cv-number" class="card-number-display">•••• •••• •••• ••••</div>
+          <div class="card-bottom">
+            <div>
+              <div style="font-size: 0.55rem; opacity: 0.8; margin-bottom: 2px;">Card Holder</div>
+              <div id="cv-name" class="card-holder-display">CARDHOLDER NAME</div>
+            </div>
+            <div>
+              <div style="font-size: 0.55rem; opacity: 0.8; margin-bottom: 2px;">Expires</div>
+              <div id="cv-expiry">MM/YY</div>
+            </div>
+          </div>
+        </div>
 
-    <!-- Buttons -->
-    <button type="submit" id="pay-btn">Proceed to Pay</button>
-  </form>
+        <label for="card_number">Card Number</label>
+        <input type="text" id="card_number" name="card_number" placeholder="1234 5678 9012 3456" oninput="updateCardNumber(this.value)" />
+        
+        <div class="card-row">
+          <div>
+            <label for="expiry_date">Expiry Date</label>
+            <input type="text" id="expiry_date" name="expiry_date" placeholder="MM/YY" oninput="updateCardExpiry(this.value)" />
+          </div>
+          <div>
+            <label for="cvv">CVV</label>
+            <input type="text" id="cvv" name="cvv" placeholder="123" />
+          </div>
+        </div>
+      </div>
+
+      <!-- UPI Section -->
+      <div id="upi" class="payment-method">
+        <label for="upi_id">UPI ID</label>
+        <input type="text" id="upi_id" name="upi_id" placeholder="yourname@upi" />
+      </div>
+
+      <!-- Net Banking Section -->
+      <div id="netbanking" class="payment-method">
+        <label for="bank">Select Bank</label>
+        <select id="bank" name="bank" class="bank-selector">
+          <option value="">-- Choose Bank --</option>
+          <option value="sbi">SBI</option>
+          <option value="hdfc">HDFC</option>
+          <option value="icici">ICICI</option>
+          <option value="axis">Axis Bank</option>
+        </select>
+      </div>
+
+      <!-- Cash on Delivery -->
+      <div id="cod" class="payment-method">
+        <p class="cod-message">✅ You will pay in cash upon delivery.</p>
+        <input type="hidden" id="cod-input" name="cod" value="0">
+      </div>
+
+      <!-- Submit button -->
+      <button type="submit" id="pay-btn">Proceed to Pay</button>
+    </form>
+  </div>
 
   <script>
-    // Extract the total amount from the URL
+    // Extract the total amount from the URL parameters
     window.onload = function () {
       const urlParams = new URLSearchParams(window.location.search);
       const amount = urlParams.get('amount');
@@ -202,29 +475,92 @@
     const methods = document.querySelectorAll('.payment-method');
     const payBtn = document.getElementById('pay-btn');
 
-    methodSelect.addEventListener('change', function () {
-      // Hide all payment sections
-      methods.forEach(m => m.style.display = 'none');
+    // Visual Tab Selection Handler
+    function selectTab(methodName) {
+      // Deactivate all tabs
+      document.querySelectorAll('.method-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
 
-      const selected = this.value;
+      // Synchronize selector
+      methodSelect.value = methodName;
 
-      // Show the selected payment method section
-      if (selected) {
-        const selectedDiv = document.getElementById(selected);
-        if (selectedDiv) {
-          selectedDiv.style.display = 'block';
-        }
+      // Find selected tab
+      const indexMap = { card: 0, upi: 1, netbanking: 2, cod: 3 };
+      const tabs = document.querySelectorAll('.method-tab');
+      if (tabs[indexMap[methodName]]) {
+        tabs[indexMap[methodName]].classList.add('active');
       }
 
-      // Update button text based on selection
-      if (selected === 'cod') {
+      // Hide all panels and disable their inputs
+      methods.forEach(m => {
+        m.style.display = 'none';
+        m.querySelectorAll('input, select').forEach(input => {
+          input.disabled = true;
+        });
+      });
+
+      // Show selected panel and enable its inputs
+      const selectedDiv = document.getElementById(methodName);
+      if (selectedDiv) {
+        selectedDiv.style.display = 'block';
+        selectedDiv.querySelectorAll('input, select').forEach(input => {
+          input.disabled = false;
+        });
+      }
+
+      // Update COD input value based on selection
+      const codInput = document.getElementById('cod-input');
+      if (codInput) {
+        codInput.value = (methodName === 'cod') ? '1' : '0';
+        codInput.disabled = false; // ensure cod is always submitted
+      }
+
+      // Update button labels
+      if (methodName === 'cod') {
         payBtn.textContent = 'Confirm Order (COD)';
+        payBtn.style.background = 'linear-gradient(135deg, var(--success), var(--success-light))';
       } else {
         payBtn.textContent = 'Proceed to Pay';
+        payBtn.style.background = 'linear-gradient(135deg, var(--success), var(--success-light))';
+      }
+
+      // Update required states based on selection and disable state
+      const cardInputs = document.querySelectorAll('#card input');
+      const upiInputs = document.querySelectorAll('#upi input');
+      const bankSelect = document.querySelector('#netbanking select');
+
+      cardInputs.forEach(i => i.required = (methodName === 'card' && !i.disabled));
+      upiInputs.forEach(i => i.required = (methodName === 'upi' && !i.disabled));
+      if(bankSelect) bankSelect.required = (methodName === 'netbanking' && !bankSelect.disabled);
+    }
+
+    // Standard dropdown handler if anything triggers it directly
+    methodSelect.addEventListener('change', function () {
+      if (this.value) {
+        selectTab(this.value);
       }
     });
+
+    // Credit Card graphic dynamic updates
+    function updateCardName(val) {
+      document.getElementById('cv-name').textContent = val.trim().toUpperCase() || 'CARDHOLDER NAME';
+    }
+
+    function updateCardNumber(val) {
+      // Format card number with spaces every 4 characters
+      const trimmed = val.replace(/\s+/g, '');
+      let formatted = '';
+      for (let i = 0; i < trimmed.length; i++) {
+        if (i > 0 && i % 4 === 0) formatted += ' ';
+        formatted += trimmed[i];
+      }
+      document.getElementById('cv-number').textContent = formatted || '•••• •••• •••• ••••';
+    }
+
+    function updateCardExpiry(val) {
+      document.getElementById('cv-expiry').textContent = val || 'MM/YY';
+    }
   </script>
-
 </body>
-
 </html>

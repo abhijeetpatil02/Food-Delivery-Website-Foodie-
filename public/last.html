@@ -2,20 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Order Confirmed</title>
-    <!-- PWA -->
+  <title>Foodie - Order Confirmed</title>
+  
   <link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#d71920">
+  <meta name="theme-color" content="#e23744">
+  
+  <!-- Shared Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #f0fff0, #d1f7d1);
+      background: linear-gradient(135deg, #fdfbf7, #f6f0e5);
       height: 100vh;
       display: flex;
       justify-content: center;
@@ -24,104 +21,253 @@
       position: relative;
     }
 
-    .confirmation {
-      text-align: center;
-      background: rgba(255, 255, 255, 0.95);
-      padding: 50px 60px;
-      border-radius: 20px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-      animation: popUp 0.7s ease;
+    .confirmation-container {
+      width: 100%;
+      max-width: 580px;
+      padding: 20px;
+      z-index: 10;
     }
 
-    .checkmark {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      background: #28a745;
+    .confirmation-card {
+      text-align: center;
+      background: var(--bg-surface-solid);
+      border: 1px solid var(--border-color);
+      padding: 50px 40px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      animation: popUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Animated SVG Checkmark */
+    .checkmark-wrapper {
+      width: 90px;
+      height: 90px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 20px;
-      animation: bounce 1s infinite alternate;
-      position: relative;
+      margin-bottom: 25px;
     }
 
-    .checkmark::after {
+    .checkmark-circle {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: var(--success);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 25px rgba(39, 174, 96, 0.35);
+      animation: scaleCircle 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    .checkmark-circle::after {
       content: '✔';
-      font-size: 50px;
+      font-size: 45px;
       color: white;
+      animation: drawCheck 0.4s ease-out 0.4s forwards;
+      opacity: 0;
+      transform: scale(0.6);
+    }
+
+    @keyframes scaleCircle {
+      0% { transform: scale(0); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes drawCheck {
+      0% { opacity: 0; transform: scale(0.6); }
+      100% { opacity: 1; transform: scale(1); }
     }
 
     h2 {
-      font-size: 2em;
-      color: #28a745;
-      margin-bottom: 10px;
-      animation: fadeSlide 1s ease-out forwards;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--success);
+      margin-bottom: 12px;
     }
 
-    p {
-      color: #555;
-      font-size: 1.1em;
-      margin-top: 10px;
-      animation: fadeSlide 1.5s ease-out forwards;
-      opacity: 0;
+    p.thankyou-msg {
+      color: var(--text-muted);
+      font-size: 1.15rem;
+      line-height: 1.6;
+      max-width: 440px;
+      margin: 0 auto 35px auto;
+    }
+
+    /* Delivery Progress Tracker Timeline */
+    .tracker-timeline {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin: 20px auto 40px auto;
+      max-width: 380px;
+      text-align: left;
+      position: relative;
+      padding-left: 30px;
+    }
+
+    .tracker-timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 10px;
+      bottom: 10px;
+      width: 4px;
+      background: #e5e7eb;
+      border-radius: var(--radius-pill);
+    }
+
+    .tracker-node {
+      position: relative;
+      padding-bottom: 25px;
+      font-family: var(--font-title);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .tracker-node:last-child {
+      padding-bottom: 0;
+    }
+
+    .tracker-dot {
+      position: absolute;
+      left: -30px;
+      top: 4px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #cbd5e1;
+      border: 3px solid var(--bg-surface-solid);
+      box-shadow: 0 0 0 2px #cbd5e1;
+      z-index: 2;
+      transition: var(--transition-smooth);
+    }
+
+    /* Active tracker state animations */
+    .tracker-node.completed {
+      color: var(--text-main);
+    }
+
+    .tracker-node.completed .tracker-dot {
+      background: var(--success);
+      box-shadow: 0 0 0 2px var(--success-light);
+    }
+
+    .tracker-node.active {
+      color: var(--primary-dark);
+      font-weight: 700;
+    }
+
+    .tracker-node.active .tracker-dot {
+      background: var(--primary);
+      box-shadow: 0 0 0 4px var(--primary-glow);
+      animation: pulse-dot 1.5s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+
+    /* Back home button */
+    .home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border-radius: var(--radius-md);
+      font-weight: 700;
+      font-size: 1.05rem;
+      cursor: pointer;
+      box-shadow: 0 6px 20px var(--primary-glow);
+      transition: var(--transition-bounce);
+    }
+
+    .home-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(226, 55, 68, 0.4);
+      background: linear-gradient(135deg, var(--primary-light), var(--primary));
     }
 
     @keyframes popUp {
-      0% { transform: scale(0.7); opacity: 0; }
+      0% { transform: scale(0.85); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
     }
 
-    @keyframes bounce {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-10px); }
-    }
-
-    @keyframes fadeSlide {
-      0% { transform: translateY(30px); opacity: 0; }
-      100% { transform: translateY(0); opacity: 1; }
-    }
-
-    /* Confetti Animation */
+    /* Confetti Animation styles */
     .confetti {
       position: absolute;
       top: -10px;
-      width: 10px;
-      height: 10px;
-      background: #28a745;
-      animation: fall 3s linear infinite;
+      width: 12px;
+      height: 12px;
+      background: var(--success);
+      animation: fall 4s linear infinite;
       opacity: 0.8;
+      border-radius: 2px;
+      z-index: 1;
     }
 
-    .confetti:nth-child(2n) { background: #ff4d4d; }
-    .confetti:nth-child(3n) { background: #ffc107; }
-    .confetti:nth-child(4n) { background: #17a2b8; }
-    .confetti:nth-child(5n) { background: #6f42c1; }
+    .confetti:nth-child(2n) { background: var(--primary-light); }
+    .confetti:nth-child(3n) { background: var(--secondary); }
+    .confetti:nth-child(4n) { background: #3b82f6; }
+    .confetti:nth-child(5n) { background: #8b5cf6; }
 
     @keyframes fall {
       0% { transform: translateY(-10px) rotate(0deg); }
-      100% { transform: translateY(110vh) rotate(360deg); }
+      100% { transform: translateY(110vh) rotate(720deg); }
     }
   </style>
 </head>
 <body>
 
   <!-- Random Confetti Pieces -->
-  <div class="confetti" style="left: 5%; animation-delay: 0s;"></div>
-  <div class="confetti" style="left: 15%; animation-delay: 0.5s;"></div>
-  <div class="confetti" style="left: 25%; animation-delay: 1s;"></div>
-  <div class="confetti" style="left: 35%; animation-delay: 1.5s;"></div>
-  <div class="confetti" style="left: 45%; animation-delay: 2s;"></div>
-  <div class="confetti" style="left: 55%; animation-delay: 2.5s;"></div>
-  <div class="confetti" style="left: 65%; animation-delay: 3s;"></div>
-  <div class="confetti" style="left: 75%; animation-delay: 1.2s;"></div>
-  <div class="confetti" style="left: 85%; animation-delay: 0.8s;"></div>
-  <div class="confetti" style="left: 95%; animation-delay: 1.8s;"></div>
+  <div class="confetti" style="left: 5%; animation-delay: 0s; animation-duration: 3s;"></div>
+  <div class="confetti" style="left: 15%; animation-delay: 1.2s; animation-duration: 4.5s;"></div>
+  <div class="confetti" style="left: 25%; animation-delay: 0.4s; animation-duration: 3.8s;"></div>
+  <div class="confetti" style="left: 35%; animation-delay: 2.1s; animation-duration: 4.2s;"></div>
+  <div class="confetti" style="left: 45%; animation-delay: 0.8s; animation-duration: 3.2s;"></div>
+  <div class="confetti" style="left: 55%; animation-delay: 1.7s; animation-duration: 4.6s;"></div>
+  <div class="confetti" style="left: 65%; animation-delay: 0.2s; animation-duration: 3.5s;"></div>
+  <div class="confetti" style="left: 75%; animation-delay: 2.5s; animation-duration: 4s;"></div>
+  <div class="confetti" style="left: 85%; animation-delay: 1s; animation-duration: 3.9s;"></div>
+  <div class="confetti" style="left: 95%; animation-delay: 1.9s; animation-duration: 4.3s;"></div>
 
-  <div class="confirmation">
-    <div class="checkmark"></div>
-    <h2>Order Confirmed!</h2>
-    <p>Thanks for ordering with Foodie. Your delicious food is on its way! 🚴‍♂️🍔🍕</p>
+  <div class="confirmation-container">
+    <div class="confirmation-card">
+      <div class="checkmark-wrapper">
+        <div class="checkmark-circle"></div>
+      </div>
+      <h2>Order Confirmed!</h2>
+      <p class="thankyou-msg">Thanks for ordering with Foodie. Your delicious food is being prepared and will be delivered shortly!</p>
+      
+      <!-- Delivery Timeline Tracking -->
+      <div class="tracker-timeline">
+        <div class="tracker-node completed">
+          <div class="tracker-dot"></div>
+          <div>✅ Order Confirmed</div>
+        </div>
+        <div class="tracker-node active">
+          <div class="tracker-dot"></div>
+          <div>🍳 Kitchen Preparing Your Meal</div>
+        </div>
+        <div class="tracker-node">
+          <div class="tracker-dot"></div>
+          <div>🚴 Out for Delivery</div>
+        </div>
+        <div class="tracker-node">
+          <div class="tracker-dot"></div>
+          <div>🏠 Arrived at Your Doorstep</div>
+        </div>
+      </div>
+
+      <a href="homepage.html" class="home-btn">Return to Homepage</a>
+    </div>
   </div>
 
 </body>
