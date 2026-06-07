@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Foodie - Complete Payment</title>
-  
+
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#e23744">
-  
+
   <!-- Shared Stylesheet -->
   <link rel="stylesheet" href="style.css">
-  
+
   <style>
     body {
       background-color: var(--bg-base);
@@ -256,7 +257,7 @@
     .card-number-display {
       font-size: 1.25rem;
       margin: 15px 0;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
     }
 
     .card-bottom {
@@ -331,6 +332,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <div class="payment-container">
@@ -363,7 +365,8 @@
       <input type="hidden" name="total_amount" id="hidden-amount">
 
       <label for="name">Full Name</label>
-      <input type="text" id="name" name="full_name" required placeholder="Enter your full name" oninput="updateCardName(this.value)" />
+      <input type="text" id="name" name="full_name" required placeholder="Enter your full name"
+        oninput="updateCardName(this.value)" />
 
       <label for="email">Email Address</label>
       <input type="email" id="email" name="email" required placeholder="name@example.com" />
@@ -417,12 +420,14 @@
         </div>
 
         <label for="card_number">Card Number</label>
-        <input type="text" id="card_number" name="card_number" placeholder="1234 5678 9012 3456" oninput="updateCardNumber(this.value)" />
-        
+        <input type="text" id="card_number" name="card_number" placeholder="1234 5678 9012 3456"
+          oninput="updateCardNumber(this.value)" />
+
         <div class="card-row">
           <div>
             <label for="expiry_date">Expiry Date</label>
-            <input type="text" id="expiry_date" name="expiry_date" placeholder="MM/YY" oninput="updateCardExpiry(this.value)" />
+            <input type="text" id="expiry_date" name="expiry_date" placeholder="MM/YY"
+              oninput="updateCardExpiry(this.value)" />
           </div>
           <div>
             <label for="cvv">CVV</label>
@@ -532,7 +537,7 @@
 
       cardInputs.forEach(i => i.required = (methodName === 'card' && !i.disabled));
       upiInputs.forEach(i => i.required = (methodName === 'upi' && !i.disabled));
-      if(bankSelect) bankSelect.required = (methodName === 'netbanking' && !bankSelect.disabled);
+      if (bankSelect) bankSelect.required = (methodName === 'netbanking' && !bankSelect.disabled);
     }
 
     // Standard dropdown handler if anything triggers it directly
@@ -563,4 +568,5 @@
     }
   </script>
 </body>
+
 </html>
