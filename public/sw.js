@@ -1,5 +1,6 @@
 const cacheName = "Foodie-v1";
 
+
 const filesToCache = [
   "./",
   "./login.html",
