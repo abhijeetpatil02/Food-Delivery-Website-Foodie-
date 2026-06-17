@@ -1,7 +1,7 @@
 {
   "name": "Foodie",
   "short_name": "Food delivery",
-  "start_url": "/login.html",
+  "start_url": "/auth.html",
   "scope": "/",
   "display": "standalone",
   "background_color": "#e60000",

@@ -37,10 +37,9 @@ document.querySelector(".signup-btn").onclick = () => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     const confirmpassword = document.getElementById("confirmpassword").value;
-    
 
-    if(username ==="admin" && email ==="admin@gmail.com")
-        {
-            window.location.href="homepage.html"
-        }
+
+    if (username === "admin" && email === "admin@gmail.com") {
+        window.location.href = "homepage.html"
+    }
 };
