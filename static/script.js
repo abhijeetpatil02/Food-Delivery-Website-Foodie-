@@ -9,6 +9,7 @@
         password.style.border = "2px solid red";
     }
 
+    
 };*/
 
 document.addEventListener("DOMContentLoaded", () => {
