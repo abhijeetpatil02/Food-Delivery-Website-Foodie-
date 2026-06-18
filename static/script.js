@@ -7,10 +7,6 @@
     } else {
         username.style.border = "2px solid red";
         password.style.border = "2px solid red";
-
-
-        
-        
     }
 };*/
 
