@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Foodie - Restaurants</title>
-    
+
     <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#e23744">
-    
+
     <!-- Shared Stylesheet -->
     <link rel="stylesheet" href="style.css">
     <script src="theme.js"></script>
-    
+
     <style>
         body {
             background-color: var(--bg-base);
@@ -195,6 +196,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="top-nav">
         <a href="homepage.html" class="back-btn">← Back to Home</a>
@@ -218,16 +220,16 @@
     <script>
         // Get the category from the URL e.g., ?category=veg
         const urlParams = new URLSearchParams(window.location.search);
-        const category = urlParams.get('category') || 'fastfood'; 
+        const category = urlParams.get('category') || 'fastfood';
 
         // Load data for the category
         const currentData = restaurantData[category];
 
         if (currentData) {
             document.getElementById('page-title').innerText = currentData.title;
-            
+
             const container = document.getElementById('restaurant-container');
-            
+
             // Setup secondary options based on category for richer layout
             const badgesMap = {
                 fastfood: ["Burgers & Sides", "Quick Delivery", "Popular"],
@@ -241,7 +243,7 @@
                 const box = document.createElement('div');
                 box.className = 'box';
                 box.style.animationDelay = `${index * 0.1}s`;
-                
+
                 // Generating random mock metrics for visual completeness
                 const mockRating = (4.3 + (index % 7) * 0.1).toFixed(1);
                 const mockTime = 25 + (index % 5) * 5;
@@ -269,4 +271,5 @@
         }
     </script>
 </body>
+
 </html>
