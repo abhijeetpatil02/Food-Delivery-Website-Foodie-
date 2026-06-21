@@ -1,5 +1,5 @@
-// Apply saved theme immediately on script load to prevent visual flashing
-(function() {
+// Apply saved theme immediately on script load to prevent visual  flashing
+(function () {
   const savedTheme = localStorage.getItem('theme') || 'light';
   document.documentElement.setAttribute('data-theme', savedTheme);
 })();
@@ -24,7 +24,7 @@ function updateToggleIcons(theme) {
 document.addEventListener('DOMContentLoaded', () => {
   const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
   updateToggleIcons(currentTheme);
-  
+
   const buttons = document.querySelectorAll('.theme-toggle-btn');
   buttons.forEach(btn => {
     btn.addEventListener('click', toggleTheme);
