@@ -25,6 +25,7 @@
     --bg-surface-solid: #ffffff;
     --bg-dark: hsl(220, 15%, 15%);
     --bg-glass-dark: rgba(25, 25, 25, 0.65);
+    --nav-bg: rgba(253, 251, 247, 0.85);
     
     /* Text */
     --text-main: hsl(220, 15%, 15%);
@@ -48,7 +49,34 @@
     /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    /* Scrollbars */
+    --scrollbar-thumb: rgba(0, 0, 0, 0.15);
 }
+
+[data-theme="dark"] {
+    /* Backgrounds */
+    --bg-base: hsl(220, 15%, 10%);
+    --bg-surface: rgba(30, 30, 30, 0.85);
+    --bg-surface-solid: hsl(220, 15%, 13%);
+    --bg-dark: hsl(220, 15%, 5%);
+    --bg-glass-dark: rgba(15, 15, 15, 0.75);
+    --nav-bg: rgba(18, 18, 18, 0.85);
+    
+    /* Text */
+    --text-main: hsl(220, 20%, 95%);
+    --text-muted: hsl(220, 10%, 70%);
+    
+    /* Borders & Shadows */
+    --border-color: rgba(255, 255, 255, 0.08);
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 12px 36px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.4);
+    
+    /* Scrollbars */
+    --scrollbar-thumb: rgba(255, 255, 255, 0.25);
+}
+
 
 /* ==========================================
    RESET & SYSTEM DEFAULTS
@@ -94,12 +122,58 @@ a {
     background: var(--bg-base);
 }
 ::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.15);
+    background: var(--scrollbar-thumb);
     border-radius: var(--radius-pill);
 }
 ::-webkit-scrollbar-thumb:hover {
     background: var(--primary);
 }
+
+/* ==========================================
+   THEME TOGGLE BUTTON
+   ========================================== */
+.theme-toggle-btn {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: var(--transition-bounce);
+    box-shadow: var(--shadow-sm);
+    outline: none;
+    padding: 0;
+    user-select: none;
+    z-index: 1010;
+}
+
+.theme-toggle-btn:hover {
+    transform: scale(1.1) rotate(15deg);
+    box-shadow: var(--shadow-md);
+    background: var(--bg-surface-solid);
+    border-color: var(--primary-light);
+}
+
+.theme-toggle-btn:active {
+    transform: scale(0.95);
+}
+
+.theme-toggle-floating {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    box-shadow: var(--shadow-lg);
+    z-index: 9999;
+}
+
 
 /* ==========================================
    COMMON GLASS COMPONENTS

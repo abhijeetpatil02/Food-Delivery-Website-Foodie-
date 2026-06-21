@@ -10,6 +10,7 @@
     
     <!-- Shared Stylesheet -->
     <link rel="stylesheet" href="style.css">
+    <script src="theme.js"></script>
     
     <style>
         body {
@@ -20,7 +21,7 @@
 
         /* Top navigation header */
         .top-nav {
-            background: rgba(253, 251, 247, 0.85);
+            background: var(--nav-bg);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
@@ -197,7 +198,10 @@
 <body>
     <div class="top-nav">
         <a href="homepage.html" class="back-btn">← Back to Home</a>
-        <div class="brand-name">Foodie<span>.</span></div>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <button class="theme-toggle-btn" aria-label="Toggle Theme">🌙</button>
+            <div class="brand-name">Foodie<span>.</span></div>
+        </div>
     </div>
 
     <div class="page-header">

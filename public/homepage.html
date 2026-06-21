@@ -11,6 +11,7 @@
   
   <!-- Shared Style -->
   <link rel="stylesheet" href="style.css">
+  <script src="theme.js"></script>
   
   <style>
     /* ----------------- Brand Loading Animation ------------------ */
@@ -104,7 +105,7 @@
       z-index: 1000;
       padding: 15px 5%;
       transition: var(--transition-smooth);
-      background: rgba(253, 251, 247, 0.8);
+      background: var(--nav-bg);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-color);
@@ -433,7 +434,7 @@
     .item button {
       width: 100%;
       padding: 12px;
-      background: #fdfbf7;
+      background: var(--bg-base);
       border: 2px solid var(--primary);
       cursor: pointer;
       border-radius: var(--radius-md);
@@ -630,7 +631,7 @@
         left: 0;
         width: 100%;
         flex-direction: column;
-        background: #fdfbf7;
+        background: var(--bg-base);
         padding: 20px 0;
         box-shadow: var(--shadow-md);
         border-bottom: 1px solid var(--border-color);
@@ -673,8 +674,11 @@
         <a href="#" class="logo-link">
           <img src="photo/logo2.webp" alt="Foodie Logo" class="logo" />
         </a>
-        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-        <ul class="nav-links" id="navLinks">
+        <div class="nav-actions" style="display: flex; align-items: center; gap: 15px; order: 2;">
+          <button class="theme-toggle-btn" aria-label="Toggle Theme">🌙</button>
+          <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+        </div>
+        <ul class="nav-links" id="navLinks" style="order: 1;">
           <li><a href="#">Home</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#services">Services</a></li>

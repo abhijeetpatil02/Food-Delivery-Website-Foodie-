@@ -9,10 +9,11 @@
   
   <!-- Shared Stylesheet -->
   <link rel="stylesheet" href="style.css">
+  <script src="theme.js"></script>
   
   <style>
     body {
-      background: linear-gradient(135deg, #fdfbf7, #f6f0e5);
+      background: linear-gradient(135deg, var(--bg-base), var(--bg-surface-solid));
       height: 100vh;
       display: flex;
       justify-content: center;
@@ -270,5 +271,7 @@
     </div>
   </div>
 
+  <!-- Floating Theme Toggle -->
+  <button class="theme-toggle-btn theme-toggle-floating" aria-label="Toggle Theme">🌙</button>
 </body>
 </html>
