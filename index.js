@@ -10,6 +10,7 @@ const server = http.createServer(app);
 // Serve static files from 'public' folder
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 // Middleware to parse form data and JSON 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
