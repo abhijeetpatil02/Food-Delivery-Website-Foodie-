@@ -9,7 +9,7 @@ const server = http.createServer(app);
 // Serve static files from 'public' folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Middleware to parse form data and JSON
+// Middleware to parse form data and JSON 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -40,7 +40,7 @@ app.post('/handleform', async (req, res) => {
         const { username, email, password } = req.body;
         // Hash password before saving
         const hashedPassword = await bcrypt.hash(password, 10);
-        
+
         const SQL_COMMAND = "INSERT INTO customer(username, email, password) VALUES (?, ?, ?)";
         database.query(SQL_COMMAND, [username, email, hashedPassword], (err, result) => {
             if (err) {
@@ -69,12 +69,12 @@ app.post('/login', (req, res) => {
             console.error(err);
             return res.send("Login error");
         }
-        
+
         if (results.length > 0) {
             const user = results[0];
             // Compare hashed password
             const isMatch = await bcrypt.compare(password, user.password);
-            
+
             // Fallback for plain-text passwords during transition phase
             if (isMatch || password === user.password) {
                 res.redirect("/homepage.html");
@@ -125,7 +125,7 @@ app.post('/submit', (req, res) => {
     try {
         const { full_name, email, payment_method, card_number, expiry_date, cvv, upi_id, bank, cod } = req.body;
         const SQL_COMMAND = "INSERT INTO payment(full_name, email, payment_method, card_number, expiry_date, cvv, upi_id, bank, cod) VALUES (?,?,?,?,?,?,?,?,?)";
-        
+
         database.query(SQL_COMMAND, [full_name, email, payment_method, card_number, expiry_date, cvv, upi_id, bank, cod], (err, result) => {
             if (err) {
                 console.error(err);
