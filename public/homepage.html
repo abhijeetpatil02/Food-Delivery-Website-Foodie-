@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Foodie - Delicious Food at Your Doorstep</title>
-  
+
   <!-- PWA -->
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#e23744">
-  
+
   <!-- Shared Style -->
   <link rel="stylesheet" href="style.css">
   <script src="theme.js"></script>
-  
+
   <style>
     /* ----------------- Brand Loading Animation ------------------ */
     #brand-animation {
@@ -64,24 +65,52 @@
       animation: floatUpOnce 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     }
 
-    .emoji:nth-child(1) { animation-delay: 1s; }
-    .emoji:nth-child(2) { animation-delay: 1.2s; }
-    .emoji:nth-child(3) { animation-delay: 1.4s; }
-    .emoji:nth-child(4) { animation-delay: 1.6s; }
-    .emoji:nth-child(5) { animation-delay: 1.8s; }
+    .emoji:nth-child(1) {
+      animation-delay: 1s;
+    }
+
+    .emoji:nth-child(2) {
+      animation-delay: 1.2s;
+    }
+
+    .emoji:nth-child(3) {
+      animation-delay: 1.4s;
+    }
+
+    .emoji:nth-child(4) {
+      animation-delay: 1.6s;
+    }
+
+    .emoji:nth-child(5) {
+      animation-delay: 1.8s;
+    }
 
     @keyframes dropIn {
-      to { opacity: 1; transform: translateY(0); }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     @keyframes floatUpOnce {
-      to { opacity: 1; transform: translateY(0); }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     @media (max-width: 768px) {
-      .brand-name { font-size: 14vw; }
-      .tagline { font-size: 5vw; }
-      .emoji { font-size: 8vw; }
+      .brand-name {
+        font-size: 14vw;
+      }
+
+      .tagline {
+        font-size: 5vw;
+      }
+
+      .emoji {
+        font-size: 8vw;
+      }
     }
 
     /* Hide/Show Homepage */
@@ -191,7 +220,7 @@
       font-weight: 800;
       color: white;
       letter-spacing: -2px;
-      text-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
       margin-bottom: 10px;
     }
 
@@ -400,7 +429,7 @@
       font-size: 0.8rem;
       font-weight: 700;
       border-radius: var(--radius-sm);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
     .item h3 {
@@ -608,7 +637,7 @@
       background: var(--bg-dark);
       color: white;
       font-size: 0.95rem;
-      border-top: 1px solid rgba(255,255,255,0.08);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     footer p {
@@ -653,6 +682,7 @@
     }
   </style>
 </head>
+
 <body>
   <!-- Brand Animation Loading Screen -->
   <div id="brand-animation">
@@ -666,6 +696,7 @@
       <span class="emoji">🥗</span>
     </div>
   </div>
+
 
   <!-- Homepage Content -->
   <div id="homepage">
@@ -691,14 +722,14 @@
       <div class="hero-content">
         <h1>Foodie</h1>
         <p>For the Love of Delicious Food.</p>
-        
+
         <div class="search-bar">
           <input type="text" placeholder="Search For Best Food..." />
           <button>Search</button>
         </div>
-        
+
         <div id="results" class="results"></div>
-        
+
         <div class="categories">
           <div class="category-card"><a href="restaurants.html?category=fastfood">🍕 Fast Food</a></div>
           <div class="category-card"><a href="restaurants.html?category=veg">🥗 Veg Food</a></div>
@@ -710,7 +741,7 @@
     <section class="selling-items">
       <h2>Most Selling Items</h2>
       <p class="sub-title">Check out our highly ordered meals of the week</p>
-      
+
       <div class="item-list">
         <div class="item">
           <div class="item-badge">Best Seller</div>
@@ -722,7 +753,8 @@
             <p class="price">₹550</p>
             <div class="item-rating">⭐ 4.8 <span>(120+)</span></div>
           </div>
-          <button><a href="order.html?item=French Fries&price=550&image=photo/FastFood/french.jpg">Order Now</a></button>
+          <button><a href="order.html?item=French Fries&price=550&image=photo/FastFood/french.jpg">Order
+              Now</a></button>
         </div>
 
         <div class="item">
@@ -735,7 +767,8 @@
             <p class="price">₹750</p>
             <div class="item-rating">⭐ 4.9 <span>(200+)</span></div>
           </div>
-          <button><a href="order.html?item=Chole Bhature&price=750&image=photo/veg Food/chole-bhature.avif">Order Now</a></button>
+          <button><a href="order.html?item=Chole Bhature&price=750&image=photo/veg Food/chole-bhature.avif">Order
+              Now</a></button>
         </div>
 
         <div class="item">
@@ -748,7 +781,8 @@
             <p class="price">₹900</p>
             <div class="item-rating">⭐ 4.7 <span>(180+)</span></div>
           </div>
-          <button><a href="order.html?item=Schzwen Chicken&price=900&image=photo/non veg/sizwan chicken.jpg">Order Now</a></button>
+          <button><a href="order.html?item=Schzwen Chicken&price=900&image=photo/non veg/sizwan chicken.jpg">Order
+              Now</a></button>
         </div>
       </div>
     </section>
@@ -757,8 +791,9 @@
     <section id="about" class="info-section">
       <h2>About Us</h2>
       <h3>Bringing Delicious Moments to Your Doorstep 🍔🚴‍♀️</h3>
-      <p>At Foodie, we believe food is more than just fuel — it’s connection, comfort, and celebration. That’s why we’ve made it our mission to deliver your favorite meals with speed, care, and a whole lot of love.</p>
-      
+      <p>At Foodie, we believe food is more than just fuel — it’s connection, comfort, and celebration. That’s why we’ve
+        made it our mission to deliver your favorite meals with speed, care, and a whole lot of love.</p>
+
       <div class="about-cards-container">
         <div class="about-card">
           <span class="about-icon">🌱</span>
@@ -781,7 +816,7 @@
     <section id="services" class="info-section">
       <h2>Our Services</h2>
       <h3>A Seamless Dining Experience at Home</h3>
-      
+
       <div class="services-grid">
         <div class="service-box">
           <span class="icon">🚴‍♂️</span>
@@ -809,16 +844,19 @@
     <section id="contact" class="info-section">
       <h2>Contact Us</h2>
       <h3>We’re Always Here to Help 🍕💬</h3>
-      <p>Got a question about your order? Need help with our platform? Just want to say hi? Whatever it is, our team is always ready to assist — fast, friendly, and just a message away.</p>
-      
+      <p>Got a question about your order? Need help with our platform? Just want to say hi? Whatever it is, our team is
+        always ready to assist — fast, friendly, and just a message away.</p>
+
       <div class="contact-grid">
         <div class="contact-card">
           <h4>📞 Customer Support</h4>
-          <p>Need immediate assistance?<br><strong>Call us:</strong> +1 (123) 456-7890<br>Available 8 AM – 11 PM, 7 days a week</p>
+          <p>Need immediate assistance?<br><strong>Call us:</strong> +1 (123) 456-7890<br>Available 8 AM – 11 PM, 7 days
+            a week</p>
         </div>
         <div class="contact-card">
           <h4>📧 Email Us</h4>
-          <p>For feedback, inquiries or partnerships:<br><strong>Email:</strong> support@foodie.com<br>We typically respond within 24 hours.</p>
+          <p>For feedback, inquiries or partnerships:<br><strong>Email:</strong> support@foodie.com<br>We typically
+            respond within 24 hours.</p>
         </div>
         <div class="contact-card">
           <h4>📍 Head Office</h4>
@@ -917,4 +955,5 @@
     });
   </script>
 </body>
+
 </html>
