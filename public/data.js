@@ -85,6 +85,7 @@ const restaurantData = {
     }
 };
 
+
 if (typeof module !== 'undefined') {
     module.exports = restaurantData;
 }
