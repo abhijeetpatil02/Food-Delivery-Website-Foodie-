@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Foodie - Menu</title>
-    
+
     <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#e23744">
-    
+
     <!-- Shared Stylesheet -->
     <link rel="stylesheet" href="style.css">
     <script src="theme.js"></script>
-    
+
     <style>
         body {
             background-color: var(--bg-base);
@@ -152,7 +153,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
         }
 
         .food-dot {
@@ -232,9 +233,9 @@
             box-shadow: 0 6px 15px rgba(39, 174, 96, 0.45);
             transform: scale(1.05);
         }
-        
     </style>
 </head>
+
 <body>
     <div class="top-nav">
         <a id="back-link" href="restaurants.html" class="back-btn">← Back to Restaurants</a>
@@ -258,7 +259,7 @@
     <script>
         // Get the category from the URL e.g., ?category=veg
         const urlParams = new URLSearchParams(window.location.search);
-        const category = urlParams.get('category') || 'fastfood'; 
+        const category = urlParams.get('category') || 'fastfood';
 
         // Update back navigation URL to remember category
         document.getElementById('back-link').href = `restaurants.html?category=${category}`;
@@ -268,16 +269,16 @@
 
         if (currentData) {
             document.getElementById('page-title').innerText = currentData.title.replace("Restaurants", "Menu");
-            
+
             const container = document.getElementById('menu-container');
-            
+
             currentData.menu.forEach((item, index) => {
                 const box = document.createElement('div');
                 box.className = 'box';
                 box.style.animationDelay = `${index * 0.08}s`;
-                
+
                 const orderLink = `order.html?item=${encodeURIComponent(item.name)}&price=${item.price}&image=${encodeURIComponent(item.image)}`;
-                
+
                 // Veg/nonveg dot helper
                 const isVeg = category === 'veg' || (category === 'fastfood' && !['Burger', 'HotDog', 'Noodles', 'Pizza', 'Momos', 'Sandwich'].includes(item.name));
                 const foodDotClass = isVeg ? 'veg' : 'nonveg';
@@ -311,4 +312,5 @@
         }
     </script>
 </body>
+
 </html>
