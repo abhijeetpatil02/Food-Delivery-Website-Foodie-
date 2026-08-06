@@ -11,7 +11,6 @@
             
 };*/
 
-
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".login").onclick = (event) => {
         event.preventDefault(); // Stop the form from submitting
