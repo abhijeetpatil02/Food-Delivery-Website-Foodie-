@@ -13,7 +13,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".login").onclick = (event) => {
-        event.preventDefault(); // Stopp the form from submiting
+        event.preventDefault(); // Stopp the form from submitingg
 
         const username = document.getElementById("username");
         const password = document.getElementById("password");
