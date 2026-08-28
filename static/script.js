@@ -29,9 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
-
-
 document.querySelector(".signup-btn").onclick = () => {
     const username = document.getElementById("username").value;
     const email = document.getElementById("email").value;
